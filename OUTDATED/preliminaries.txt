@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <title>
+            Logic Puzzle Solver
+        </title>
+
+        <link rel='stylesheet' type='text/css' href='Styles.css' />
+    </head>
+
+    <body>
+        <form method='post'>
+            <div>
+                <label for="gridSize">Please select the size of your grid</label>
+                
+                <select name="gridSize" id="gridSize">
+                    <option>3x4</option>
+                    <option>3x5</option>
+                    <option>4x4</option>
+                    <option>4x5</option>
+                    <option>4x6</option>
+                    <option>4x7</option>
+                </select>
+            </div>
+            
+            <div>
+                <label for="loBound">Please enter the lowest value for Category 1.</label>
+                <input type="number" id="loBound" name="loBound" step="any">
+            </div>
+
+            <div>
+                <label for="increment">Please enter the increment of values for Category 1 (strictly positive).</label>
+                <input type="number" id="increment" name="increment" min="0" step="any">
+            </div>
+
+            <br>
+
+            <div>
+                <label for="cluesList">Please enter your clues on separate lines</label>
+                <textarea id="cluesList" name="cluesList" rows="4" cols="50"></textarea>
+            </div>
+
+            <label>Sandbox for entering item information:</label>
+            <textarea></textarea>
+
+            <br>
+
+            <button type='submit' class='btn btn-primary'>Build</button>
+        </form>
+
+        <br>
+        
+        <p>
+            Clue syntax (case-insensitive): <br>
+            TRUE/FALSE I1 I2 - Items 1 and 2 form a true/false relationship. <br>
+            DIFF I1...Ix - Items 1 thru x correspond to different entities. <br>
+            (N)EITHER I1 I2 I3 - Item 1 corresponds to (n)either of Items 2 and 3. <br>
+            LESS/MORE I1 I2 A1 - Item 1 is less/more than Item 2 (using Category 1). A1* is an optional parameter to specify the distance. <br>
+            (NOT)EQUALS I1 A1 - Item 1 forms a (false)true relationship with the value A1*. <br>
+            ALIGN I1 I2 I3 I4 - Of Items 1 and 2, one corresponds to Item 3, the other to Item 4. <br>
+            *If A1 is not a whole multiple of the increment up from the lower bound (but within range of the possible Category 1 values),
+                it will be rounded down to the nearest of such multiples.
+        </p>
+    </body>
+</html>
