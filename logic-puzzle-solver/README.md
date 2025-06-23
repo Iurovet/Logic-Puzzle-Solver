@@ -71,3 +71,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 # OUTDATED folder
 It is easier to implement this program in the React, as opposed to the Javalin Web Framework.
+
+# Category 1 is purely-number based, as well as the clue keywords
+This is to simulate the puzzles given in Puzzle Baron

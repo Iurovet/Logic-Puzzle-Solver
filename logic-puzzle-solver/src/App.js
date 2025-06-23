@@ -1,36 +1,39 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
   // Size is given by 34, 35, 44, 45, 46, 47.
   // The 1st digit indicates the number of interconnected subgrids, the 2nd their dimensions
   const [gridSize, setGridSize] = useState(34)
-  const handleSizeChange = (event) => {
+  const [stepSize, setStepSize] = useState(1);
+  const [entityNames, setEntityNames] = useState(new Array((gridSize - gridSize%10) / 10).fill(new Array(gridSize%10).fill("1")));
+
+  const handleGridSizeChange = (event) => {
     setGridSize(event.target.value);
-    setEntityNames(new Array((gridSize - gridSize%10) / 10).fill(new Array(gridSize%10).fill("")));
+    setEntityNames(new Array((gridSize - gridSize%10) / 10).fill(new Array(gridSize%10).fill("1")));
   }
-
-  const [categoryOneStepSize, setCategoryOneStepSize] = useState(1);
-  const handleStepSizeChange = (event) => { setCategoryOneStepSize(event.target.value) };
-
-  const [entityNames, setEntityNames] = useState(new Array((gridSize - gridSize%10) / 10).fill(new Array(gridSize%10).fill("")));
+  const handleStepSizeChange = (event) => { setStepSize(event.target.value); }
   const handleNameChange = (rowIndex, colIndex, newValue) => {
     setEntityNames(entityNames => {
       const newGridData = [...entityNames]; // Shallow copy of outer array
       const newRow = [...newGridData[rowIndex]]; // Shallow copy of inner array
       newRow[colIndex] = newValue;
       newGridData[rowIndex] = newRow;
-
-      /*Category 1 data*/
-      if (rowIndex === 0) {
-        for (let i = 1; i < newGridData[0].length; ++i) {
-          newGridData[0][i] = newGridData[0][i-1] + categoryOneStepSize
-        }
-      }
-
       return newGridData;
     });
   };
+
+  useEffect(() => {
+    const newGridData = [...entityNames]; // Shallow copy of outer array
+    const newRow = [...newGridData[0]]; // Shallow copy of inner array
+    
+    for (let i = 1; i < newRow.length; ++i) {newRow[i] = Number(newRow[i-1]) + Number(stepSize);}
+    newGridData[0] = newRow;
+
+    if (entityNames !== newGridData) {
+      setEntityNames(newGridData);
+    }
+  }, [entityNames[0][0], gridSize, stepSize]);
   
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -42,18 +45,18 @@ function App() {
       <td>
         <label htmlFor="entityName"></label>
         <input name="category1" id={"category1 start"} type="number" min="1" step="1" placeholder="Enter a starting positive integer here"
-        value={entityNames[0][0] || ''} onChange={(e) => handleNameChange(0, 0, e.target.value)}></input>
+        value={entityNames[0][0] || 1} onChange={(e) => handleNameChange(0, 0, e.target.value)}></input>
       </td>)
 
     for (let i = 1; i < gridSize%10; ++i) {
-      entityNameSlotOne.push(<td>{entityNames[0][i] || "N/A"}</td>)
+      entityNameSlotOne.push(<td>{entityNames[0][i] || 0}</td>)
     }
 
     entityNameSlotOne.push(
       <td>
         <label htmlFor="entityName"></label>
         <input name="category1" id={"category1 step"} type="number" min="1" step="1" placeholder="Enter a step size here"
-        value={categoryOneStepSize} onChange={handleStepSizeChange}></input>
+        value={stepSize || 1} onChange={handleStepSizeChange}></input>
       </td>)
 
     return entityNameSlotOne
@@ -82,17 +85,10 @@ function App() {
     }
 
     let categoryNameSlots = []
-    for (let i = 0; i < numRows; ++i) {
-      // if (i > 0) {
-      //   categoryNameSlots.push(<tr><td>{i + 1}</td>{getEntityNameSlots(i)}</tr>)
-      // }
-      // else {
-      //   categoryNameSlots.push(<tr><td>1</td>{getEntityNameSlotOne()}</tr>)
-      // }
-      if (i === 0) {
-        categoryNameSlots.push(<tr><td>1</td>{getEntityNameSlotOne()}</tr>)
-      }
-    }
+    categoryNameSlots.push(<tr><td>1</td>{getEntityNameSlotOne()}</tr>)
+    // for (let i = 1; i < numRows; ++i) {
+    //   categoryNameSlots.push(<tr><td>{i + 1}</td>{getEntityNameSlots(i)}</tr>)
+    // }
 
     return (
       <>
@@ -110,7 +106,7 @@ function App() {
       <form onSubmit={handleSubmit}>
         <div>
           <label for="gridSize">Please select the size of your grid</label>
-          <select name="gridSize" id="gridSize" onChange={handleSizeChange}>
+          <select name="gridSize" id="gridSize" onChange={handleGridSizeChange}>
             <option value="34">3x4</option>
             <option value="35">3x5</option>
             <option value="44">4x4</option>
