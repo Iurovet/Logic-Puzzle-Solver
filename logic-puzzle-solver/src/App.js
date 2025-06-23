@@ -6,11 +6,11 @@ function App() {
   // The 1st digit indicates the number of interconnected subgrids, the 2nd their dimensions
   const [gridSize, setGridSize] = useState(34)
   const [stepSize, setStepSize] = useState(1);
-  const [entityNames, setEntityNames] = useState(new Array((gridSize - gridSize%10) / 10).fill(new Array(gridSize%10).fill("1")));
+  const [entityNames, setEntityNames] = useState(new Array(Math.floor(gridSize / 10)).fill(new Array(gridSize%10).fill("1")));
 
   const handleGridSizeChange = (event) => {
     setGridSize(event.target.value);
-    setEntityNames(new Array((gridSize - gridSize%10) / 10).fill(new Array(gridSize%10).fill("1")));
+    setEntityNames(new Array(Math.floor(gridSize / 10)).fill(new Array(gridSize%10).fill("1")));
   }
   const handleStepSizeChange = (event) => { setStepSize(event.target.value); }
   const handleNameChange = (rowIndex, colIndex, newValue) => {
@@ -27,7 +27,7 @@ function App() {
     const newGridData = [...entityNames]; // Shallow copy of outer array
     const newRow = [...newGridData[0]]; // Shallow copy of inner array
     
-    for (let i = 1; i < newRow.length; ++i) {newRow[i] = Number(newRow[i-1]) + Number(stepSize);}
+    for (let i = 1; i < gridSize % 10; ++i) {newRow[i] = Number(newRow[i-1]) + Number(stepSize);}
     newGridData[0] = newRow;
 
     if (entityNames !== newGridData) {
@@ -48,8 +48,8 @@ function App() {
         value={entityNames[0][0] || 1} onChange={(e) => handleNameChange(0, 0, e.target.value)}></input>
       </td>)
 
-    for (let i = 1; i < gridSize%10; ++i) {
-      entityNameSlotOne.push(<td>{entityNames[0][i] || 0}</td>)
+    for (let i = 1; i < gridSize % 10; ++i) {
+      entityNameSlotOne.push(<td>{entityNames[0][i] || 1}</td>)
     }
 
     entityNameSlotOne.push(
@@ -76,11 +76,8 @@ function App() {
   // }
 
   function testTable() {
-    const numRows = (gridSize - gridSize % 10) / 10
-    const numCols = gridSize % 10
-
     let entityNameNumbers = []
-    for (let i = 0; i < numCols; ++i) {
+    for (let i = 0; i < gridSize % 10; ++i) {
       entityNameNumbers.push(<td>{i + 1}</td>)
     }
 
