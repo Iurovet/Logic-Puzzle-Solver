@@ -122,7 +122,7 @@ function App() {
       <table>
         <tr><td>Keyword (case-insensitive):</td><td>Number of items</td><td>Details</td></tr>
         <tr><td>TRUE/FALSE</td><td>2</td><td>Items 1 and 2 form a true/false relationship</td></tr>
-        <tr><td>DIFF</td><td>X</td><td>Items 1 thru X correspond to different entities</td></tr>
+        <tr><td>DIFF</td><td>X ∈ [2, no. of entities]</td><td>Items 1 thru X correspond to different entities, where typical values of X are 2, 3, or no. of entities</td></tr>
         <tr><td>(N)EITHER</td><td>3</td><td>Item 1 corresponds to (n)either of Items 2 and 3</td></tr>
         <tr><td>LESS/MORE</td><td>2</td><td>Item 1 is less/more than Item 2 (using Category 1) A1 is an optional parameter to specify the distance</td></tr>
         <tr><td>(NOT)EQUALS</td><td>2</td><td>Item 1 forms a (false)true relationship with item 2 (the latter being from category 1)</td></tr>
