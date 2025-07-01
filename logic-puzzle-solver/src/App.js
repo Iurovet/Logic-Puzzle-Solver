@@ -78,7 +78,7 @@ function App() {
   function testTable() {
     let entityNameNumbers = []
     for (let i = 0; i < gridSize % 10; ++i) {
-      entityNameNumbers.push(<td>{i + 1}</td>)
+      entityNameNumbers.push(<td>{i + 1 + ((i === 0) && "/starting number for category 1")}</td>)
     }
 
     let categoryNameSlots = []
@@ -90,7 +90,7 @@ function App() {
     return (
       <>
         <table>
-          <tr><td>Category number/entity name</td>{entityNameNumbers}<td>Increment for Category 1</td></tr>
+          <tr><td>Category/entity number</td>{entityNameNumbers}<td>Increment for Category 1</td></tr>
           {categoryNameSlots}
         </table>
         *Note: We assume that category 1 has an integer for the 1st name, which increases by an integer for the subsequent amounts
@@ -102,14 +102,14 @@ function App() {
     <div className="App">
       <form onSubmit={handleSubmit}>
         <div>
-          <label for="gridSize">Please select the size of your grid</label>
+          <label htmlFor="gridSize">Please select the size of your grid and enter the entity names. Note that category 1 is implied to be a strictly increasing sequence of numbers.</label>
           <select name="gridSize" id="gridSize" onChange={handleGridSizeChange}>
-            <option value="34">3x4</option>
-            <option value="35">3x5</option>
-            <option value="44">4x4</option>
-            <option value="45">4x5</option>
-            <option value="46">4x6</option>
-            <option value="47">4x7</option>
+            <option value="34">3 categories x 4 entities</option>
+            <option value="35">3 categories x 5 entities</option>
+            <option value="44">4 categories x 4 entities</option>
+            <option value="45">4 categories x 5 entities</option>
+            <option value="46">4 categories x 6 entities</option>
+            <option value="47">4 categories x 7 entities</option>
           </select>
         </div>
         
